@@ -6,7 +6,6 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -19,24 +18,18 @@ import javafx.animation.TimelineBuilder;
 public class Animation extends Application {
 	int width = 400, height = 300;
 	Random rand = new Random();
-	float x = 100, y = 100, dx = -1.5f, dy = -1.5f;
-	ArrayList<Circle> circles = new ArrayList<Circle>();
+	float x = 100, y = 100, dx = -3f, dy = -3f;
+	ArrayList<MovableCircle> circles = new ArrayList<MovableCircle>();
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		Group root = new Group();
-		for (int i = 0; i < 2; i++) {
-			x = rand.nextFloat() * 200;
-			y = rand.nextFloat() * 200;
+		for (int i = 0; i < 3; i++) {
+
 			int rad = rand.nextInt(30) + 12;
-			
-			if (x < rad)
-				x = rad;
-
-			if (y < rad)
-				y = rad;
-
-			Circle circle = new Circle(x, y, rad);
+			x = rand.nextFloat() * 200 + rad;
+			y = rand.nextFloat() * 200 + rad;
+			MovableCircle circle = new MovableCircle(x, y, rad, dx, dy);
 			circle.setFill(Color.rgb((rand.nextInt(255)), rand.nextInt(255), rand.nextInt(255)));
 			circles.add(circle);
 			root.getChildren().add(circle);
@@ -48,18 +41,33 @@ public class Animation extends Application {
 			@Override
 			public void handle(ActionEvent event) {
 				for (int i = 0; i < circles.size(); i++) {
-					if (circles.get(i).getCenterX() + circles.get(i).getTranslateX() < circles.get(i).getRadius()
-							|| circles.get(i).getCenterX() + circles.get(i).getTranslateX()
-									+ circles.get(i).getRadius() > scene.getWidth()) {
-						dx = -dx;
+					// Makes sure ball doesn't go off left edge
+					if (circles.get(i).getCenterX() + circles.get(i).getTranslateX() < circles.get(i).getRadius()) {
+						float newDx = 3f;
+						circles.get(i).setDx(newDx);
 					}
-					if (circles.get(i).getCenterY() + circles.get(i).getTranslateY() < circles.get(i).getRadius()
-							|| circles.get(i).getCenterY() + circles.get(i).getTranslateY()
-									+ circles.get(i).getRadius() > scene.getHeight()) {
-						dy = -dy;
+					// Makes sure ball doesn't go off right edge
+					else if (circles.get(i).getCenterX() + circles.get(i).getTranslateX()
+							+ circles.get(i).getRadius() > scene.getWidth()) {
+						float newDx = -3f;
+						circles.get(i).setDx(newDx);
 					}
-					circles.get(i).setTranslateX(circles.get(i).getTranslateX() + dx);
-					circles.get(i).setTranslateY(circles.get(i).getTranslateY() + dy);
+					// Makes sure ball doesn't go off top
+					else if (circles.get(i).getCenterY() + circles.get(i).getTranslateY() < circles.get(i)
+							.getRadius()) {
+						float newDy = 3f;
+						circles.get(i).setDy(newDy);
+					}
+					// Makes sure ball doesn't go off bottom edge
+					else if (circles.get(i).getCenterY() + circles.get(i).getTranslateY()
+							+ circles.get(i).getRadius() > scene.getHeight()) {
+						float newDy = -3f;
+						circles.get(i).setDy(newDy);
+
+					}
+
+					circles.get(i).setTranslateX(circles.get(i).getTranslateX() + circles.get(i).getDx());
+					circles.get(i).setTranslateY(circles.get(i).getTranslateY() + circles.get(i).getDy());
 				}
 			}
 
