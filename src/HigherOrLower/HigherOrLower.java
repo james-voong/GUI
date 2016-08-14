@@ -35,8 +35,7 @@ public class HigherOrLower extends Application {
 			}
 		});
 
-		Button btn = new Button();
-		btn.setText("New Game");
+		Button btn = new Button("New Game");
 		btn.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override

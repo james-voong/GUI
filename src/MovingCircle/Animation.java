@@ -24,9 +24,9 @@ public class Animation extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		Group root = new Group();
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 10; i++) {
 
-			int rad = rand.nextInt(30) + 12;
+			int rad = rand.nextInt(50);
 			x = rand.nextFloat() * 200 + rad;
 			y = rand.nextFloat() * 200 + rad;
 			MovableCircle circle = new MovableCircle(x, y, rad, dx, dy);
@@ -47,19 +47,18 @@ public class Animation extends Application {
 						circles.get(i).setDx(newDx);
 					}
 					// Makes sure ball doesn't go off right edge
-					else if (circles.get(i).getCenterX() + circles.get(i).getTranslateX()
+					if (circles.get(i).getCenterX() + circles.get(i).getTranslateX()
 							+ circles.get(i).getRadius() > scene.getWidth()) {
 						float newDx = -3f;
 						circles.get(i).setDx(newDx);
 					}
 					// Makes sure ball doesn't go off top
-					else if (circles.get(i).getCenterY() + circles.get(i).getTranslateY() < circles.get(i)
-							.getRadius()) {
+					if (circles.get(i).getCenterY() + circles.get(i).getTranslateY() < circles.get(i).getRadius()) {
 						float newDy = 3f;
 						circles.get(i).setDy(newDy);
 					}
 					// Makes sure ball doesn't go off bottom edge
-					else if (circles.get(i).getCenterY() + circles.get(i).getTranslateY()
+					if (circles.get(i).getCenterY() + circles.get(i).getTranslateY()
 							+ circles.get(i).getRadius() > scene.getHeight()) {
 						float newDy = -3f;
 						circles.get(i).setDy(newDy);
