@@ -15,6 +15,7 @@ import java.util.Random;
 import javafx.animation.KeyFrame;
 import javafx.animation.TimelineBuilder;
 
+@SuppressWarnings("deprecation")
 public class Animation extends Application {
 	int width = 400, height = 300;
 	Random rand = new Random();
